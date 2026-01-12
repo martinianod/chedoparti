@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "Chedoparti WhatsApp Service",
+    "_postman_id": "c0ffee-babe-cafe-b0t0-000000000002",
+    "description": "Colecci\u00f3n para testear el webhook de chedoparti-whatsapp-service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Verify Webhook (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/whatsapp/webhook?hub.mode=subscribe&hub.challenge=123456&hub.verify_token=my_verify_token",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "whatsapp",
+            "webhook"
+          ],
+          "query": [
+            {
+              "key": "hub.mode",
+              "value": "subscribe"
+            },
+            {
+              "key": "hub.challenge",
+              "value": "123456"
+            },
+            {
+              "key": "hub.verify_token",
+              "value": "my_verify_token"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Incoming Message (simple text)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/whatsapp/webhook",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "whatsapp",
+            "webhook"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"object\": \"whatsapp_business_account\",\n  \"entry\": [\n    {\n      \"id\": \"WHATSAPP_BUSINESS_ACCOUNT_ID\",\n      \"changes\": [\n        {\n          \"value\": {\n            \"messaging_product\": \"whatsapp\",\n            \"metadata\": {\n              \"display_phone_number\": \"123456789\",\n              \"phone_number_id\": \"PHONE_NUMBER_ID\"\n            },\n            \"contacts\": [\n              {\n                \"profile\": {\n                  \"name\": \"Test User\"\n                },\n                \"wa_id\": \"5491122334455\"\n              }\n            ],\n            \"messages\": [\n              {\n                \"from\": \"5491122334455\",\n                \"id\": \"wamid.TEST123\",\n                \"timestamp\": \"1690000000\",\n                \"text\": {\n                  \"body\": \"Hola, quiero reservar ma\\u00f1ana a la noche en Pilar\"\n                },\n                \"type\": \"text\"\n              }\n            ]\n          },\n          \"field\": \"messages\"\n        }\n      ]\n    }\n  ]\n}"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+name: chedoparti_app
+description: App de gestión de clubes deportivos, canchas, reservas y torneos.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Gestión de estados
+  flutter_riverpod: ^2.6.1
+
+  # Navegación moderna
+  go_router: ^15.1.1
+
+  # Consumo de APIs
+  dio: ^5.4.0
+
+  # Modelos inmutables y generación de código
+  json_annotation: ^4.9.0
+
+  # Responsiveness
+  flutter_screenutil: ^5.8.4
+
+  # Manejo de fechas
+  intl: ^0.20.2
+  google_fonts: ^6.1.0
+
+  # Local storage
+  shared_preferences: ^2.2.2
+
+  # Notificaciones locales
+  flutter_local_notifications: ^19.1.0
+
+  # UI extra
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.1
+
+  # Carga de imágenes
+  image_picker: ^1.0.7
+
+  iconsax_flutter: ^1.0.0
+  freezed_annotation: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Generación de código automático
+  freezed: ^3.0.6
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.5
+
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/animations/
+    - assets/images/content/
+    - assets/icons/
+    - assets/fonts/
+    - assets/logos/
+
+#   fonts:
+#     - family: Montserrat
+#       fonts:
+#         - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
+#         - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
+#           weight: 700
+#         - asset: assets/fonts/Montserrat/Montserrat-Italic.ttf
+#           style: italic
+# 
+#     - family: Roboto
+#       fonts:
+#         - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+#         - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+#           weight: 700
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/logo.png"
