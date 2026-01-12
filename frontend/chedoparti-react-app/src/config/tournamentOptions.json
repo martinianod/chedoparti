@@ -1,0 +1,17 @@
+{
+  "categories": [
+    { "value": "A", "label": "A" },
+    { "value": "B", "label": "B" },
+    { "value": "C", "label": "C" }
+  ],
+  "sports": [
+    { "value": "Padel", "labelKey": "tournaments.sport_padel" },
+    { "value": "Tenis", "labelKey": "tournaments.sport_tenis" }
+  ],
+  "sportOptions": ["Padel", "Tenis"],
+  "categoryOptions": ["A", "B", "C"],
+  "genderOptions": ["Hombres", "Mujeres"],
+  "ageOptions": ["chicos", "jovenes", "adultos"],
+  "statusOptions": ["Programado", "En curso", "Finalizado"],
+  "inscriptionOptions": ["Abierta", "Cerrada"]
+}

@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'chedoparti-payments'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:8080']
+
+# Aquí defines el archivo donde están las alertas
+rule_files:
+  - 'alerts.yml'

@@ -1,0 +1,773 @@
+[
+  {
+    "id": 1001,
+    "courtId": 1,
+    "date": "2025-11-20",
+    "time": "10:00",
+    "duration": "01:30",
+    "user": "Juan Pérez",
+    "userId": "socio2@chedoparti.com",
+    "membershipNumber": "S001100",
+    "sport": "Padel",
+    "type": "Normal",
+    "price": 3500,
+    "notes": "Reserva completada exitosamente",
+    "status": "completed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-18T15:30:00Z",
+    "updatedAt": "2025-11-20T11:30:00Z",
+    "completedAt": "2025-11-20T11:30:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-18T15:30:00Z",
+        "description": "Reserva creada para Cancha de Pádel #1",
+        "user": "Juan Pérez"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-18T16:45:00Z",
+        "description": "Pago procesado exitosamente",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-20T10:00:00Z",
+        "description": "La reserva ha comenzado - Cancha activada",
+        "user": "Sistema"
+      },
+      {
+        "action": "COMPLETE",
+        "timestamp": "2025-11-20T11:30:00Z",
+        "description": "Reserva completada exitosamente - Tiempo de juego finalizado",
+        "user": "Sistema"
+      }
+    ]
+  },
+  {
+    "id": 1002,
+    "courtId": 1,
+    "date": "2025-11-25",
+    "time": "10:00",
+    "duration": "01:00",
+    "user": "Ana García",
+    "userId": "socio@chedoparti.com",
+    "membershipNumber": "S001234",
+    "sport": "Padel",
+    "type": "Fijo",
+    "price": 2800,
+    "notes": "Turno fijo semanal confirmado",
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-19T10:15:00Z",
+    "updatedAt": "2025-11-19T11:20:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-19T10:15:00Z",
+        "description": "Reserva fija semanal creada para Cancha de Pádel #1",
+        "user": "Ana García"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-19T10:45:00Z",
+        "description": "Horario ajustado para evitar conflictos",
+        "user": "Ana García",
+        "changes": {
+          "time": {
+            "from": "09:30",
+            "to": "10:00"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-19T11:20:00Z",
+        "description": "Pago mensual procesado automáticamente",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1003,
+    "courtId": 2,
+    "date": "2025-11-24",
+    "time": "11:00",
+    "duration": "01:00",
+    "user": "Club Torneo",
+    "userId": "admin@chedoparti.com",
+    "sport": "Padel",
+    "type": "Torneo",
+    "price": 0,
+    "notes": "Semifinal torneo primavera activa",
+    "status": "active",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-17T12:00:00Z",
+    "updatedAt": "2025-11-24T11:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-17T12:00:00Z",
+        "description": "Reserva de torneo creada para semifinal",
+        "user": "Administrador"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-20T09:15:00Z",
+        "description": "Participantes confirmados para la semifinal",
+        "user": "Organizador Torneo",
+        "changes": {
+          "notes": {
+            "from": "Pendiente confirmación participantes",
+            "to": "Semifinal torneo primavera - Participantes confirmados"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-22T10:00:00Z",
+        "description": "Reserva confirmada por administración",
+        "user": "Administrador",
+        "changes": {
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-24T11:00:00Z",
+        "description": "Semifinal iniciada - Los jugadores están en cancha",
+        "user": "Sistema"
+      }
+    ]
+  },
+  {
+    "id": 1004,
+    "courtId": 3,
+    "date": "2025-11-19",
+    "time": "09:00",
+    "duration": "01:30",
+    "user": "María López",
+    "userId": "socio3@chedoparti.com",
+    "membershipNumber": "S001567",
+    "sport": "Tenis",
+    "type": "Normal",
+    "price": 1800,
+    "notes": "Cancelada por lluvia",
+    "status": "cancelled",
+    "paymentStatus": "refunded",
+    "createdAt": "2025-11-15T14:20:00Z",
+    "updatedAt": "2025-11-18T11:30:00Z",
+    "cancelledAt": "2025-11-18T11:30:00Z",
+    "cancelReason": "Condiciones meteorológicas adversas",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-15T14:20:00Z",
+        "description": "Clase particular de tenis reservada",
+        "user": "María López"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T14:25:00Z",
+        "description": "Pago procesado inmediatamente",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-18T08:00:00Z",
+        "description": "Alerta meteorológica - Se evalúa cancelación",
+        "user": "Administrador"
+      },
+      {
+        "action": "CANCEL",
+        "timestamp": "2025-11-18T11:30:00Z",
+        "description": "Clase cancelada por lluvia intensa - Reembolso automático",
+        "user": "Administrador",
+        "changes": {
+          "status": {
+            "from": "confirmed",
+            "to": "cancelled"
+          },
+          "paymentStatus": {
+            "from": "paid",
+            "to": "refunded"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1005,
+    "courtId": 4,
+    "date": "2025-11-16",
+    "time": "14:00",
+    "duration": "01:00",
+    "user": "Roberto Silva",
+    "userId": "coach@chedoparti.com",
+    "sport": "Tenis",
+    "type": "Normal",
+    "price": 1600,
+    "notes": "No se presentó el jugador",
+    "status": "no_show",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-14T09:00:00Z",
+    "updatedAt": "2025-11-16T14:15:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-14T09:00:00Z",
+        "description": "Partido individual reservado en Tenis #2",
+        "user": "Roberto Silva"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-14T09:05:00Z",
+        "description": "Pago procesado exitosamente",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-16T13:45:00Z",
+        "description": "Recordatorio enviado - Partido comienza en 15 minutos",
+        "user": "Sistema"
+      },
+      {
+        "action": "NO_SHOW",
+        "timestamp": "2025-11-16T14:15:00Z",
+        "description": "No Show registrado - El jugador no se presentó en el tiempo de tolerancia",
+        "user": "Sistema",
+        "changes": {
+          "status": {
+            "from": "confirmed",
+            "to": "no_show"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1006,
+    "courtId": 5,
+    "date": "2025-11-22",
+    "time": "16:00",
+    "duration": "02:00",
+    "user": "Club Elite",
+    "userId": "other3",
+    "sport": "Tenis",
+    "type": "Torneo",
+    "price": 0,
+    "notes": "Final de torneo completada exitosamente",
+    "status": "completed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-12T11:00:00Z",
+    "updatedAt": "2025-11-22T18:00:00Z",
+    "completedAt": "2025-11-22T18:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-12T11:00:00Z",
+        "description": "Final de torneo programada en Tenis #3",
+        "user": "Organizador Torneo"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-14T10:00:00Z",
+        "description": "Finalistas confirmados para la final",
+        "user": "Administrador",
+        "changes": {
+          "notes": {
+            "from": "Esperando finalistas",
+            "to": "Final torneo de tenis - Finalistas confirmados"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-18T19:45:00Z",
+        "description": "Preparación especial de cancha para final",
+        "user": "Personal de Mantenimiento"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-22T15:45:00Z",
+        "description": "Ceremonia de apertura completada",
+        "user": "Organizador"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-22T16:00:00Z",
+        "description": "Final iniciada - Gran expectación",
+        "user": "Sistema"
+      },
+      {
+        "action": "COMPLETE",
+        "timestamp": "2025-11-22T18:00:00Z",
+        "description": "Final completada con gran éxito - Nuevo campeón coronado",
+        "user": "Sistema"
+      }
+    ]
+  },
+  {
+    "id": 1007,
+    "courtId": 2,
+    "date": "2025-11-21",
+    "time": "19:00",
+    "duration": "01:00",
+    "user": "Pedro Martinez",
+    "userId": "other4",
+    "sport": "Padel",
+    "type": "Invitado",
+    "price": 2200,
+    "notes": "Cancelada por el usuario",
+    "status": "cancelled",
+    "paymentStatus": "refunded",
+    "createdAt": "2025-11-20T16:30:00Z",
+    "updatedAt": "2025-11-21T14:20:00Z",
+    "cancelledAt": "2025-11-21T14:20:00Z",
+    "cancelReason": "Cancelación voluntaria del usuario",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-20T16:30:00Z",
+        "description": "Reserva para invitado creada en Padel #2",
+        "user": "Pedro Martinez"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-20T16:35:00Z",
+        "description": "Pago procesado con tarjeta de débito",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-21T14:15:00Z",
+        "description": "Usuario solicita cancelación por emergencia personal",
+        "user": "Pedro Martinez"
+      },
+      {
+        "action": "CANCEL",
+        "timestamp": "2025-11-21T14:20:00Z",
+        "description": "Reserva cancelada voluntariamente - Reembolso aprobado",
+        "user": "Recepción",
+        "changes": {
+          "status": {
+            "from": "confirmed",
+            "to": "cancelled"
+          },
+          "paymentStatus": {
+            "from": "paid",
+            "to": "refunded"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1008,
+    "courtId": 1,
+    "date": "2025-11-26",
+    "time": "15:00",
+    "duration": "01:00",
+    "user": "Patricia Morales",
+    "userId": "other5",
+    "sport": "Padel",
+    "type": "Normal",
+    "price": 2500,
+    "notes": "Reserva pendiente de pago",
+    "status": "pending",
+    "paymentStatus": "pending",
+    "createdAt": "2025-11-23T14:00:00Z",
+    "updatedAt": "2025-11-23T14:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-23T14:00:00Z",
+        "description": "Reserva creada para Cancha de Pádel #1",
+        "user": "Patricia Morales"
+      }
+    ]
+  },
+  {
+    "id": 1009,
+    "courtId": 3,
+    "date": "2025-11-27",
+    "time": "17:00",
+    "duration": "01:30",
+    "user": "Carlos Mendoza",
+    "userId": "socio5@chedoparti.com",
+    "membershipNumber": "S001890",
+    "sport": "Tenis",
+    "type": "Normal",
+    "price": 2700,
+    "notes": "Clase con profesor particular confirmada",
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-21T10:00:00Z",
+    "updatedAt": "2025-11-22T16:30:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-21T10:00:00Z",
+        "description": "Clase particular reservada en Tenis #1",
+        "user": "Carlos Mendoza"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-21T11:30:00Z",
+        "description": "Profesor asignado para la clase",
+        "user": "Recepción",
+        "changes": {
+          "notes": {
+            "from": "Clase particular solicitada",
+            "to": "Clase con profesor Luis Gómez"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-22T16:30:00Z",
+        "description": "Pago confirmado y clase programada",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1010,
+    "courtId": 4,
+    "date": "2025-11-15",
+    "time": "20:00",
+    "duration": "02:00",
+    "user": "Diego Fernández",
+    "userId": "socio6@chedoparti.com",
+    "membershipNumber": "S002001",
+    "sport": "Tenis",
+    "type": "Normal",
+    "price": 4000,
+    "notes": "Partido nocturno completado con éxito",
+    "status": "completed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-10T09:00:00Z",
+    "updatedAt": "2025-11-15T22:00:00Z",
+    "completedAt": "2025-11-15T22:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-10T09:00:00Z",
+        "description": "Partido nocturno reservado en Tenis #2 con iluminación",
+        "user": "Diego Fernández"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-11T14:00:00Z",
+        "description": "Duración extendida por solicitud especial",
+        "user": "Diego Fernández",
+        "changes": {
+          "duration": {
+            "from": "01:30",
+            "to": "02:00"
+          },
+          "price": {
+            "from": "3200",
+            "to": "4000"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-12T10:00:00Z",
+        "description": "Pago total procesado incluyendo extensión",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "partial",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T19:45:00Z",
+        "description": "Sistema de iluminación activado para partido nocturno",
+        "user": "Personal de Mantenimiento"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T20:00:00Z",
+        "description": "Partido iniciado bajo iluminación artificial",
+        "user": "Sistema"
+      },
+      {
+        "action": "COMPLETE",
+        "timestamp": "2025-11-15T22:00:00Z",
+        "description": "Partido nocturno completado exitosamente - Excelente calidad de juego",
+        "user": "Sistema"
+      }
+    ]
+  },
+  {
+    "id": 1011,
+    "courtId": 1,
+    "date": "2025-11-15",
+    "time": "18:00",
+    "duration": "01:30",
+    "user": "Ana Rodríguez",
+    "userId": "socio7@chedoparti.com",
+    "membershipNumber": "S002100",
+    "sport": "Padel",
+    "type": "Normal",
+    "price": 3200,
+    "notes": "Reserva para hoy - En progreso",
+    "status": "active",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-13T15:30:00Z",
+    "updatedAt": "2025-11-15T18:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-13T15:30:00Z",
+        "description": "Reserva creada para Cancha de Pádel #1 - Viernes por la tarde",
+        "user": "Ana Rodríguez"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-13T15:35:00Z",
+        "description": "Pago procesado con tarjeta de crédito",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T18:00:00Z",
+        "description": "¡Juego en curso! - Cancha ocupada",
+        "user": "Sistema"
+      }
+    ]
+  },
+  {
+    "id": 1012,
+    "courtId": 2,
+    "date": "2025-11-16",
+    "time": "09:00",
+    "duration": "01:00",
+    "user": "Manuel González",
+    "userId": "socio8@chedoparti.com",
+    "membershipNumber": "S002200",
+    "sport": "Padel",
+    "type": "Fijo",
+    "price": 2800,
+    "notes": "Turno fijo sábados por la mañana - Confirmado para mañana",
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-14T20:15:00Z",
+    "updatedAt": "2025-11-14T20:20:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-14T20:15:00Z",
+        "description": "Turno fijo semanal reservado para sábados",
+        "user": "Manuel González"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-14T20:20:00Z",
+        "description": "Pago automático procesado para turno fijo",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1013,
+    "courtId": 3,
+    "date": "2025-11-17",
+    "time": "14:30",
+    "duration": "01:00",
+    "user": "Isabella Silva",
+    "userId": "socio9@chedoparti.com",
+    "membershipNumber": "S002300",
+    "sport": "Tenis",
+    "type": "Normal",
+    "price": 2000,
+    "notes": "Clase de tenis - Domingo por la tarde",
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-15T12:45:00Z",
+    "updatedAt": "2025-11-15T12:50:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-15T12:45:00Z",
+        "description": "Clase de tenis reservada para domingo",
+        "user": "Isabella Silva"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T12:50:00Z",
+        "description": "Pago procesado - Clase confirmada",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1014,
+    "courtId": 4,
+    "date": "2025-11-18",
+    "time": "16:00",
+    "duration": "02:00",
+    "user": "Grupo Amigos",
+    "userId": "socio10@chedoparti.com",
+    "membershipNumber": "S002400",
+    "sport": "Padel",
+    "type": "Normal",
+    "price": 5000,
+    "notes": "Dobles de padel - Lunes próximo (sesión extendida)",
+    "status": "confirmed",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-15T09:30:00Z",
+    "updatedAt": "2025-11-15T09:35:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-15T09:30:00Z",
+        "description": "Reserva de 2 horas para grupo de amigos - Lunes",
+        "user": "Grupo Amigos"
+      },
+      {
+        "action": "UPDATE",
+        "timestamp": "2025-11-15T09:35:00Z",
+        "description": "Pago grupal procesado exitosamente",
+        "user": "Sistema",
+        "changes": {
+          "paymentStatus": {
+            "from": "pending",
+            "to": "paid"
+          },
+          "status": {
+            "from": "pending",
+            "to": "confirmed"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 1015,
+    "courtId": 5,
+    "date": "2025-12-01",
+    "time": "10:30",
+    "duration": "01:30",
+    "user": "Torneo Diciembre",
+    "userId": "admin@chedoparti.com",
+    "sport": "Tenis",
+    "type": "Torneo",
+    "price": 0,
+    "notes": "Primera ronda torneo de diciembre - Futuro",
+    "status": "pending",
+    "paymentStatus": "paid",
+    "createdAt": "2025-11-15T14:00:00Z",
+    "updatedAt": "2025-11-15T14:00:00Z",
+    "events": [
+      {
+        "action": "CREATE",
+        "timestamp": "2025-11-15T14:00:00Z",
+        "description": "Torneo de diciembre programado - Primera ronda",
+        "user": "Administrador"
+      }
+    ]
+  }
+]

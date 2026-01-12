@@ -1,0 +1,11 @@
+groups:
+  - name: PaymentAlerts
+    rules:
+      - alert: HighPaymentFailureRate
+        expr: rate(payments_failure[5m]) > 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Alerta: Alta tasa de fallos en pagos"
+          description: "Más de 10 pagos fallidos por minuto en los últimos 5 minutos"

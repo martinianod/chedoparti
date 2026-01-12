@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+jwt:
+  secret: 9yClDkURH4i3IpQ6UHggzGo5TkfSeXBXwDR6x6DLy/oE0TkrLsBhG+DFF8vI1Srl3yMaRVFY6GCYKLqu3B6K3g==
+  expiration: 3600000
+
+server:
+  port: 8081

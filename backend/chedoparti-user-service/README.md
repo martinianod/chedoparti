@@ -1,0 +1,1 @@
+# chedoparti-user-service

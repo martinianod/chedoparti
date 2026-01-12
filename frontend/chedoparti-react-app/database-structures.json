@@ -1,0 +1,821 @@
+{
+  "documentation": {
+    "title": "Estructuras de Datos para Chedoparti Frontend",
+    "description": "Todas las estructuras JSON que espera el frontend para insertar en la base de datos",
+    "date": "2025-11-06",
+    "endpoints": {
+      "auth": {
+        "login": "POST /api/login",
+        "me": "GET /api/me"
+      },
+      "users": {
+        "list": "GET /api/users",
+        "get": "GET /api/users/{id}",
+        "create": "POST /api/users",
+        "update": "PUT /api/users/{id}",
+        "delete": "DELETE /api/users/{id}"
+      },
+      "courts": {
+        "list": "GET /api/courts",
+        "listActive": "GET /api/courts/active",
+        "get": "GET /api/courts/{id}",
+        "create": "POST /api/courts",
+        "update": "PUT /api/courts/{id}",
+        "delete": "DELETE /api/courts/{id}"
+      },
+      "reservations": {
+        "list": "GET /api/reservations",
+        "get": "GET /api/reservations/{id}",
+        "create": "POST /api/reservations",
+        "update": "PUT /api/reservations/{id}",
+        "delete": "DELETE /api/reservations/{id}",
+        "changeStatus": "PATCH /api/reservations/{id}/status",
+        "cancel": "POST /api/reservations/{id}/cancel",
+        "availability": "GET /api/reservations/availability",
+        "history": "GET /api/reservations/history"
+      },
+      "tournaments": {
+        "list": "GET /api/tournaments",
+        "get": "GET /api/tournaments/{id}",
+        "create": "POST /api/tournaments",
+        "update": "PUT /api/tournaments/{id}",
+        "delete": "DELETE /api/tournaments/{id}"
+      },
+      "stats": {
+        "overview": "GET /api/stats/overview"
+      },
+      "schedules": {
+        "list": "GET /api/schedules",
+        "update": "PUT /api/schedules"
+      },
+      "pricing": {
+        "list": "GET /api/pricing",
+        "update": "PUT /api/pricing"
+      }
+    }
+  },
+
+  "entities": {
+    "user": {
+      "description": "Estructura de usuario para autenticación y perfil",
+      "table_name": "users",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "name": "string",
+        "email": "string (unique)",
+        "password": "string (hashed)",
+        "avatar": "string (URL optional)",
+        "phone": "string (optional)",
+        "role": "string (admin, user)",
+        "active": "boolean",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "name": "Admin Usuario",
+          "email": "admin@example.com",
+          "password": "admin123",
+          "avatar": "",
+          "phone": "+54 11 1234-5678",
+          "role": "admin",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "name": "Juan Pérez",
+          "email": "juan.perez@example.com",
+          "password": "password123",
+          "avatar": "",
+          "phone": "+54 11 2345-6789",
+          "role": "user",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 3,
+          "name": "Ana García",
+          "email": "ana.garcia@example.com",
+          "password": "password123",
+          "avatar": "",
+          "phone": "+54 11 3456-7890",
+          "role": "user",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 4,
+          "name": "Carlos Martín",
+          "email": "carlos.martin@example.com",
+          "password": "password123",
+          "avatar": "",
+          "phone": "+54 11 4567-8901",
+          "role": "user",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ],
+      "login_response": {
+        "access_token": "string (JWT token)",
+        "user": {
+          "id": "number",
+          "name": "string",
+          "email": "string",
+          "avatar": "string",
+          "role": "string"
+        }
+      }
+    },
+
+    "court": {
+      "description": "Estructura de canchas con campos específicos por deporte",
+      "table_name": "courts",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "name": "string",
+        "sport": "string (Padel, Tenis, Fútbol, Basquet)",
+        "type": "string (blanda, dura, mixta, etc)",
+        "indoor": "boolean (optional)",
+        "lights": "boolean",
+        "surface": "string",
+        "surface_type": "string (optional)",
+        "glass_type": "string (optional - for Padel)",
+        "size": "string (optional - for Fútbol)",
+        "hoops": "string (optional - for Basquet)",
+        "scoreboard": "boolean (optional - for Basquet)",
+        "active": "boolean",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "name": "Padel 1",
+          "sport": "Padel",
+          "type": "blanda",
+          "indoor": true,
+          "lights": true,
+          "surface": "Sintético",
+          "surface_type": "alfombra",
+          "glass_type": "blindex",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "name": "Padel 2",
+          "sport": "Padel",
+          "type": "dura",
+          "indoor": false,
+          "lights": false,
+          "surface": "Cemento",
+          "surface_type": "cemento",
+          "glass_type": "cemento",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 3,
+          "name": "Tenis 1",
+          "sport": "Tenis",
+          "type": "césped",
+          "indoor": false,
+          "lights": true,
+          "surface": "Hierba",
+          "surface_type": "hierba",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 4,
+          "name": "Fútbol 1",
+          "sport": "Fútbol",
+          "type": "sintético",
+          "indoor": false,
+          "lights": true,
+          "surface": "Sintético",
+          "size": "5 jugadores",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 5,
+          "name": "Basquet 1",
+          "sport": "Basquet",
+          "type": "madera",
+          "indoor": true,
+          "lights": true,
+          "surface": "Madera",
+          "surface_type": "madera",
+          "hoops": "2",
+          "scoreboard": true,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "reservation": {
+      "description": "Estructura de reservas con fechas y tiempos",
+      "table_name": "reservations",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "court_id": "number (foreign key to courts)",
+        "user_id": "number (foreign key to users, optional)",
+        "user_phone": "string (when no user_id)",
+        "user_name": "string (when no user_id)",
+        "start_at": "timestamp",
+        "end_at": "timestamp",
+        "price": "number (decimal)",
+        "status": "string (confirmed, cancelled, pending)",
+        "type": "string (Normal, Fijo, Torneo, Invitado)",
+        "notes": "text (optional)",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1001,
+          "court_id": 1,
+          "user_id": 2,
+          "user_phone": "+54 11 2345-6789",
+          "user_name": "Juan Pérez",
+          "start_at": "2025-11-06T09:00:00Z",
+          "end_at": "2025-11-06T10:00:00Z",
+          "price": 2500.0,
+          "status": "confirmed",
+          "type": "Normal",
+          "notes": "Reserva estándar",
+          "created_at": "2025-11-06T08:00:00Z",
+          "updated_at": "2025-11-06T08:00:00Z"
+        },
+        {
+          "id": 1002,
+          "court_id": 1,
+          "user_id": 3,
+          "user_phone": "+54 11 3456-7890",
+          "user_name": "Ana García",
+          "start_at": "2025-11-06T10:00:00Z",
+          "end_at": "2025-11-06T11:00:00Z",
+          "price": 2800.0,
+          "status": "confirmed",
+          "type": "Fijo",
+          "notes": "Turno fijo semanal",
+          "created_at": "2025-11-06T08:00:00Z",
+          "updated_at": "2025-11-06T08:00:00Z"
+        },
+        {
+          "id": 1003,
+          "court_id": 2,
+          "user_id": null,
+          "user_phone": "+54 11 1111-1111",
+          "user_name": "Club Torneo",
+          "start_at": "2025-11-06T11:00:00Z",
+          "end_at": "2025-11-06T12:00:00Z",
+          "price": 0.0,
+          "status": "confirmed",
+          "type": "Torneo",
+          "notes": "Semifinal torneo primavera",
+          "created_at": "2025-11-06T08:00:00Z",
+          "updated_at": "2025-11-06T08:00:00Z"
+        },
+        {
+          "id": 1004,
+          "court_id": 2,
+          "user_id": 4,
+          "user_phone": "+54 11 4567-8901",
+          "user_name": "Carlos Martín",
+          "start_at": "2025-11-06T12:00:00Z",
+          "end_at": "2025-11-06T13:00:00Z",
+          "price": 2000.0,
+          "status": "confirmed",
+          "type": "Invitado",
+          "notes": "Reserva para invitado especial",
+          "created_at": "2025-11-06T08:00:00Z",
+          "updated_at": "2025-11-06T08:00:00Z"
+        }
+      ]
+    },
+
+    "tournament": {
+      "description": "Estructura de torneos",
+      "table_name": "tournaments",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "name": "string",
+        "sport": "string",
+        "category": "string",
+        "gender": "string (Hombres, Mujeres, Mixto)",
+        "start_date": "date",
+        "end_date": "date",
+        "inscription_status": "string (Abierta, Cerrada, Finalizada)",
+        "tournament_status": "string (Programado, En Curso, Finalizado, Cancelado)",
+        "max_participants": "number",
+        "current_participants": "number",
+        "entry_fee": "number (decimal)",
+        "prize_pool": "number (decimal, optional)",
+        "description": "text (optional)",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "name": "Torneo Primavera Padel",
+          "sport": "Padel",
+          "category": "A",
+          "gender": "Hombres",
+          "start_date": "2025-11-15",
+          "end_date": "2025-11-17",
+          "inscription_status": "Abierta",
+          "tournament_status": "Programado",
+          "max_participants": 16,
+          "current_participants": 8,
+          "entry_fee": 5000.0,
+          "prize_pool": 50000.0,
+          "description": "Torneo de Padel categoría A masculino",
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "name": "Torneo Tenis Damas",
+          "sport": "Tenis",
+          "category": "B",
+          "gender": "Mujeres",
+          "start_date": "2025-11-20",
+          "end_date": "2025-11-22",
+          "inscription_status": "Abierta",
+          "tournament_status": "Programado",
+          "max_participants": 12,
+          "current_participants": 6,
+          "entry_fee": 3000.0,
+          "prize_pool": 30000.0,
+          "description": "Torneo de Tenis femenino categoría B",
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "court_schedule": {
+      "description": "Horarios de operación de canchas por día de la semana",
+      "table_name": "court_schedules",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "court_id": "number (foreign key to courts)",
+        "day_of_week": "string (lunes, martes, miercoles, jueves, viernes, sabado, domingo)",
+        "open_time": "time",
+        "close_time": "time",
+        "active": "boolean",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "court_id": 1,
+          "day_of_week": "lunes",
+          "open_time": "08:00",
+          "close_time": "23:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "court_id": 1,
+          "day_of_week": "martes",
+          "open_time": "08:00",
+          "close_time": "23:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 3,
+          "court_id": 1,
+          "day_of_week": "miercoles",
+          "open_time": "08:00",
+          "close_time": "23:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 4,
+          "court_id": 1,
+          "day_of_week": "jueves",
+          "open_time": "08:00",
+          "close_time": "23:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 5,
+          "court_id": 1,
+          "day_of_week": "viernes",
+          "open_time": "08:00",
+          "close_time": "01:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 6,
+          "court_id": 1,
+          "day_of_week": "sabado",
+          "open_time": "09:00",
+          "close_time": "01:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 7,
+          "court_id": 1,
+          "day_of_week": "domingo",
+          "open_time": "09:00",
+          "close_time": "22:00",
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "holiday_schedule": {
+      "description": "Horarios especiales para feriados",
+      "table_name": "holiday_schedules",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "court_id": "number (foreign key to courts, null for all courts)",
+        "date": "date",
+        "name": "string (holiday name)",
+        "open_time": "time",
+        "close_time": "time",
+        "closed": "boolean (if court is closed entirely)",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "court_id": null,
+          "date": "2025-12-25",
+          "name": "Navidad",
+          "open_time": "10:00",
+          "close_time": "20:00",
+          "closed": false,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "court_id": null,
+          "date": "2025-01-01",
+          "name": "Año Nuevo",
+          "open_time": "12:00",
+          "close_time": "20:00",
+          "closed": false,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "pricing_rule": {
+      "description": "Reglas de precios dinámicos por cancha, día y horario",
+      "table_name": "pricing_rules",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "court_id": "number (foreign key to courts, null for all courts)",
+        "days_of_week": "string (JSON array: [\"lunes\", \"martes\"])",
+        "start_time": "time",
+        "end_time": "time",
+        "price_type": "string (normal, noche, fin_de_semana, domingo, feriado)",
+        "price": "number (decimal)",
+        "active": "boolean",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "court_id": null,
+          "days_of_week": "[\"lunes\", \"martes\", \"miercoles\", \"jueves\"]",
+          "start_time": "08:00",
+          "end_time": "18:00",
+          "price_type": "normal",
+          "price": 2000.0,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "court_id": null,
+          "days_of_week": "[\"lunes\", \"martes\", \"miercoles\", \"jueves\"]",
+          "start_time": "18:00",
+          "end_time": "23:00",
+          "price_type": "noche",
+          "price": 2500.0,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 3,
+          "court_id": null,
+          "days_of_week": "[\"viernes\", \"sabado\"]",
+          "start_time": "08:00",
+          "end_time": "01:00",
+          "price_type": "fin_de_semana",
+          "price": 3000.0,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 4,
+          "court_id": null,
+          "days_of_week": "[\"domingo\"]",
+          "start_time": "09:00",
+          "end_time": "22:00",
+          "price_type": "domingo",
+          "price": 2800.0,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "holiday_pricing": {
+      "description": "Precios especiales para feriados específicos",
+      "table_name": "holiday_pricing",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "court_id": "number (foreign key to courts, null for all courts)",
+        "date": "date",
+        "name": "string (holiday name)",
+        "start_time": "time",
+        "end_time": "time",
+        "price": "number (decimal)",
+        "active": "boolean",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "court_id": null,
+          "date": "2025-12-25",
+          "name": "Navidad",
+          "start_time": "10:00",
+          "end_time": "20:00",
+          "price": 4000.0,
+          "active": true,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "stats_overview": {
+      "description": "Datos de estadísticas para gráficos del dashboard",
+      "table_name": "stats_monthly",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "month": "string",
+        "year": "number",
+        "reservations_count": "number",
+        "revenue": "number (decimal)",
+        "court_usage": "number (percentage)",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "month": "Enero",
+          "year": 2025,
+          "reservations_count": 32,
+          "revenue": 64000.0,
+          "court_usage": 75.5,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 2,
+          "month": "Febrero",
+          "year": 2025,
+          "reservations_count": 44,
+          "revenue": 88000.0,
+          "court_usage": 82.3,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 3,
+          "month": "Marzo",
+          "year": 2025,
+          "reservations_count": 51,
+          "revenue": 102000.0,
+          "court_usage": 89.1,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 4,
+          "month": "Abril",
+          "year": 2025,
+          "reservations_count": 39,
+          "revenue": 78000.0,
+          "court_usage": 68.7,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 5,
+          "month": "Mayo",
+          "year": 2025,
+          "reservations_count": 65,
+          "revenue": 130000.0,
+          "court_usage": 92.4,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        },
+        {
+          "id": 6,
+          "month": "Junio",
+          "year": 2025,
+          "reservations_count": 72,
+          "revenue": 144000.0,
+          "court_usage": 95.8,
+          "created_at": "2025-11-06T10:00:00Z",
+          "updated_at": "2025-11-06T10:00:00Z"
+        }
+      ]
+    },
+
+    "activity_history": {
+      "description": "Historial de actividades del sistema",
+      "table_name": "activity_history",
+      "structure": {
+        "id": "number (auto-increment primary key)",
+        "user_id": "number (foreign key to users, optional)",
+        "user_name": "string",
+        "action": "string (Reserva creada, Reserva cancelada, etc)",
+        "entity_type": "string (reservation, court, tournament, etc)",
+        "entity_id": "number",
+        "details": "text (JSON or description)",
+        "created_at": "timestamp"
+      },
+      "sample_data": [
+        {
+          "id": 1,
+          "user_id": 2,
+          "user_name": "Juan Pérez",
+          "action": "Reserva creada",
+          "entity_type": "reservation",
+          "entity_id": 1001,
+          "details": "Reserva para Padel 1 el 06/11/2025 de 09:00 a 10:00",
+          "created_at": "2025-11-06T08:00:00Z"
+        },
+        {
+          "id": 2,
+          "user_id": 1,
+          "user_name": "Admin Usuario",
+          "action": "Cancha creada",
+          "entity_type": "court",
+          "entity_id": 1,
+          "details": "Nueva cancha Padel 1 agregada al sistema",
+          "created_at": "2025-11-06T07:30:00Z"
+        },
+        {
+          "id": 3,
+          "user_id": 3,
+          "user_name": "Ana García",
+          "action": "Reserva cancelada",
+          "entity_type": "reservation",
+          "entity_id": 1005,
+          "details": "Cancelación de reserva por motivos personales",
+          "created_at": "2025-11-06T07:00:00Z"
+        }
+      ]
+    }
+  },
+
+  "api_responses": {
+    "paginated_response": {
+      "description": "Estructura de respuesta paginada estándar",
+      "structure": {
+        "content": "array (data items)",
+        "page": "number (current page)",
+        "size": "number (page size)",
+        "totalElements": "number (total items)",
+        "totalPages": "number (total pages)",
+        "first": "boolean",
+        "last": "boolean"
+      },
+      "example": {
+        "content": ["...array of items..."],
+        "page": 0,
+        "size": 10,
+        "totalElements": 25,
+        "totalPages": 3,
+        "first": true,
+        "last": false
+      }
+    },
+
+    "error_response": {
+      "description": "Estructura de respuesta de error estándar",
+      "structure": {
+        "timestamp": "string (ISO datetime)",
+        "path": "string (request path)",
+        "status": "number (HTTP status code)",
+        "error": "string (error type)",
+        "message": "string (error message)",
+        "requestId": "string (optional)"
+      },
+      "example": {
+        "timestamp": "2025-11-06T10:00:00.000Z",
+        "path": "/api/reservations/9999",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Reservation not found with id: 9999",
+        "requestId": "abc123-def456"
+      }
+    }
+  },
+
+  "validation_rules": {
+    "user": {
+      "name": "required, min: 2, max: 100",
+      "email": "required, email format, unique",
+      "password": "required, min: 6, max: 100",
+      "phone": "optional, phone format",
+      "role": "required, enum: [admin, user]"
+    },
+    "court": {
+      "name": "required, min: 2, max: 100",
+      "sport": "required, enum: [Padel, Tenis, Fútbol, Basquet]",
+      "surface": "required, min: 2, max: 100"
+    },
+    "reservation": {
+      "court_id": "required, exists in courts",
+      "start_at": "required, datetime, future",
+      "end_at": "required, datetime, after start_at",
+      "user_phone": "required when user_id is null",
+      "user_name": "required when user_id is null"
+    },
+    "tournament": {
+      "name": "required, min: 2, max: 200",
+      "sport": "required, enum: [Padel, Tenis, Fútbol, Basquet]",
+      "start_date": "required, date, future",
+      "end_date": "required, date, after start_date",
+      "max_participants": "required, min: 2, max: 999"
+    }
+  },
+
+  "database_relationships": {
+    "courts": {
+      "has_many": [
+        "reservations",
+        "court_schedules",
+        "pricing_rules",
+        "holiday_schedules",
+        "holiday_pricing"
+      ]
+    },
+    "users": {
+      "has_many": ["reservations", "activity_history"]
+    },
+    "reservations": {
+      "belongs_to": ["court", "user"]
+    },
+    "court_schedules": {
+      "belongs_to": ["court"]
+    },
+    "pricing_rules": {
+      "belongs_to": ["court"]
+    },
+    "activity_history": {
+      "belongs_to": ["user"]
+    }
+  }
+}

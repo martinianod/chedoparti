@@ -1,0 +1,111 @@
+spring:
+  application:
+    name: api-gateway
+  security:
+    user:
+      name: admin
+      password: admin123
+  cloud:
+    gateway:
+      routes:
+        - id: auth_service
+          uri: ${AUTH_ROUTE_URI:http://localhost:8081}
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authServiceCircuitBreaker
+                fallbackUri: forward:/authFallBack
+        - id: user_service
+          uri: ${USER_ROUTE_URI:http://localhost:8082}
+          predicates:
+            - Path=/user/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceCircuitBreaker
+                fallbackUri: forward:/userFallBack
+        - id: reservation_service
+          uri: ${RESERVATIONS_ROUTE_URI:http://localhost:8084}
+          predicates:
+            - Path=/reservation/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: reservationServiceCircuitBreaker
+                fallbackUri: forward:/reservationFallBack
+        - id: payment_service
+          uri: ${PAYMENTS_ROUTE_URI:http://localhost:8085}
+          predicates:
+            - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: paymentServiceCircuitBreaker
+                fallbackUri: forward:/paymentFallBack
+        - id: institution_service
+          uri: ${INSTITUTIONS_ROUTE_URI:http://localhost:8083}
+          predicates:
+            - Path=/institution/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: institutionServiceCircuitBreaker
+                fallbackUri: forward:/institutionFallBack
+      default-filters:
+        - name: AddResponseHeader
+          args:
+            name: X-Response-Default-Foo
+            value: Bar
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: [ "*" ]
+            allowedMethods: [ "GET", "POST", "PUT", "DELETE" ]
+
+server:
+  port: 8989
+
+
+jwt:
+  secret: ${JWT_SECRET:lIs3aon+SUH1U/W3Q4nbEFZE5Ug+O1uQWrzrhPqseNw=}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 2
+        minimumNumberOfCalls: 1
+        failureRateThreshold: 20
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 1
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 1000
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+    instances:
+      authServiceCircuitBreaker:
+        baseConfig: default
+      userServiceCircuitBreaker:
+        baseConfig: default
+      reservationServiceCircuitBreaker:
+        baseConfig: default
+      paymentServiceCircuitBreaker:
+        baseConfig: default
+      institutionServiceCircuitBreaker:
+        baseConfig: default
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

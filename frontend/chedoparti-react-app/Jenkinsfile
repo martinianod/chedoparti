@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY = "ghcr.io/martinianodambrosio"
+        SERVICE_NAME = "chedoparti-${env.JOB_BASE_NAME}"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                sh 'npm ci'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t $REGISTRY/$SERVICE_NAME:$IMAGE_TAG ."
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([string(credentialsId: 'ghcr-token', variable: 'TOKEN')]) {
+                    sh """
+                    echo $TOKEN | docker login ghcr.io -u martiniano --password-stdin
+                    docker push $REGISTRY/$SERVICE_NAME:$IMAGE_TAG
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when { branch 'main' }
+            steps {
+                echo "Deploying frontend to staging environment..."
+                // Aquí podrías usar SSH, rsync, o kubectl para el despliegue
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

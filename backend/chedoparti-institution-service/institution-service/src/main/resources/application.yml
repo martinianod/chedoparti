@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: institution-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chedoparti_institution_db
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: pass
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+
+jwt:
+  secret: 9yClDkURH4i3IpQ6UHggzGo5TkfSeXBXwDR6x6DLy/oE0TkrLsBhG+DFF8vI1Srl3yMaRVFY6GCYKLqu3B6K3g==
+  expiration: 3600000

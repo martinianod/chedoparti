@@ -1,0 +1,80 @@
+{
+  "Padel": {
+    "icon": "padel",
+    "fields": [
+      { "name": "indoor", "type": "checkbox", "label": "¿Techada?" },
+      { "name": "lights", "type": "checkbox", "label": "¿Luces?" },
+      {
+        "name": "glassType",
+        "type": "select",
+        "label": "Tipo de vidrio",
+        "options": ["blindex", "cemento"]
+      },
+      {
+        "name": "surfaceType",
+        "type": "select",
+        "label": "Tipo de superficie",
+        "options": ["cemento", "alfombra"]
+      },
+      {
+        "name": "surface",
+        "type": "text",
+        "label": "Superficie (detalle)",
+        "placeholder": "Sintético, cemento..."
+      }
+    ]
+  },
+  "Tenis": {
+    "icon": "tennis",
+    "fields": [
+      { "name": "indoor", "type": "checkbox", "label": "¿Techada?" },
+      { "name": "lights", "type": "checkbox", "label": "¿Luces?" },
+      {
+        "name": "surfaceType",
+        "type": "select",
+        "label": "Tipo de superficie",
+        "options": ["polvo", "cemento", "sintetico", "hierba"]
+      },
+      {
+        "name": "surface",
+        "type": "text",
+        "label": "Superficie (detalle)",
+        "placeholder": "Polvo de ladrillo, cemento, sintético, hierba..."
+      }
+    ]
+  },
+  "Fútbol": {
+    "icon": "soccer",
+    "fields": [
+      {
+        "name": "surface",
+        "type": "text",
+        "label": "Superficie",
+        "placeholder": "Sintético, césped..."
+      },
+      { "name": "size", "type": "text", "label": "Tamaño", "placeholder": "5, 7, 11 jugadores..." },
+      { "name": "lights", "type": "checkbox", "label": "¿Luces?" }
+    ]
+  },
+  "Basquet": {
+    "icon": "basketball",
+    "fields": [
+      { "name": "indoor", "type": "checkbox", "label": "¿Techada?" },
+      { "name": "lights", "type": "checkbox", "label": "¿Luces?" },
+      {
+        "name": "surfaceType",
+        "type": "select",
+        "label": "Tipo de superficie",
+        "options": ["madera", "sintetico", "cemento"]
+      },
+      {
+        "name": "surface",
+        "type": "text",
+        "label": "Superficie (detalle)",
+        "placeholder": "Madera, sintético, cemento..."
+      },
+      { "name": "hoops", "type": "select", "label": "Cantidad de aros", "options": ["1", "2"] },
+      { "name": "scoreboard", "type": "checkbox", "label": "¿Marcador electrónico?" }
+    ]
+  }
+}
