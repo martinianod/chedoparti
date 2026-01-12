@@ -1,4 +1,4 @@
-.PHONY: help up down build restart logs clean status test
+.PHONY: help build up down restart logs clean status test
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -6,14 +6,16 @@ help: ## Show this help message
 	@echo 'Available targets:'
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-up: ## Start all services
+build: ## Build all Java services (requires Maven & Java 17+)
+	@echo "Building all services..."
+	@./build-all.sh
+
+up: ## Start all services (build required first)
 	docker compose up -d
 
-build: ## Build all services from scratch
-	docker compose build --no-cache
-
-up-build: ## Build and start all services
-	docker compose up -d --build
+build-up: ## Build JARs and start all services
+	@./build-all.sh
+	@docker compose up -d
 
 down: ## Stop all services
 	docker compose down
@@ -76,9 +78,11 @@ shell-redis: ## Open Redis CLI
 install: ## First time setup
 	@echo "Creating .env file from .env.example..."
 	@cp -n .env.example .env || true
+	@echo "Building all services..."
+	@./build-all.sh
 	@echo "Starting services..."
-	@make up-build
+	@docker compose up -d
 	@echo "\nWaiting for services to be healthy..."
-	@sleep 10
+	@sleep 30
 	@make health
 	@echo "\n✅ Setup complete! Access the app at http://localhost:5173"

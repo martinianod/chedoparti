@@ -2,18 +2,14 @@
 
 Sistema completo de reservas de canchas deportivas con arquitectura de microservicios, completamente dockerizado y listo para desarrollo.
 
-## 🚀 Quick Start (Un Solo Comando)
+## 🚀 Quick Start (Two Commands)
 
 ```bash
-make install
+./build-all.sh          # Build all Java services (2-3 minutes)
+docker compose up -d    # Start all services
 ```
 
-O manualmente:
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
+**Or use the detailed guide**: [QUICK_START.md](QUICK_START.md)
 
 La aplicación estará disponible en:
 - **Frontend Web**: http://localhost:5173
@@ -24,6 +20,7 @@ La aplicación estará disponible en:
 
 - Docker 24.0+
 - Docker Compose V2
+- **Maven 3.9+ and Java 17+** (for building services before Docker)
 - 8GB RAM disponible
 - Puertos disponibles: 5173, 8000, 8081-8084, 8989, 5432, 6379
 
@@ -64,6 +61,38 @@ La aplicación estará disponible en:
 | **whatsapp-service** | 8000 | Integración WhatsApp (FastAPI/Python) |
 | **postgres** | 5432 | Base de datos principal |
 | **redis** | 6379 | Cache y sesiones |
+
+## 📦 Building Services
+
+### Why Build Before Docker?
+
+The Java services are built on the host before Docker containerization to avoid SSL certificate issues in Docker build environments and to speed up the build process.
+
+### Build All Services
+
+```bash
+./build-all.sh
+```
+
+This script builds all 5 microservices (User, Institution, Reservation, Payment, API Gateway).
+
+### Build Individual Services
+
+```bash
+cd backend/chedoparti-user-service/user-service
+mvn clean package -DskipTests
+```
+
+### What Gets Built
+
+Each service creates a JAR file in its `target/` directory:
+- `user-service-1.0.0.jar`
+- `institution-service-1.0.0.jar`
+- `reservation-service-1.0.0.jar`
+- `payment-service-1.0.0.jar`
+- `api-gateway-1.0.0.jar`
+
+These JARs are then copied into Docker images.
 
 ## 🛠️ Comandos Disponibles
 
