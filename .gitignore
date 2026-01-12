@@ -1,10 +1,40 @@
+# macOS
 .DS_Store
+
+# Node
 node_modules/
-__pycache__/
-*.pyc
-.env
-.venv
-venv/
 dist/
 build/
 *.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv
+venv/
+*.egg-info/
+
+# Java/Maven
+target/
+*.class
+.mvn/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Docker
+.dockerignore
+
+# Expo
+.expo/
+.expo-shared/
+

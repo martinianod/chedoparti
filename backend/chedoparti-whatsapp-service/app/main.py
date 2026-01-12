@@ -12,6 +12,10 @@ app = FastAPI(title="Chedoparti WhatsApp Service")
 # Registrar ruta /metrics
 app.include_router(metrics.prometheus_app())
 
+@app.get("/health")
+async def health():
+    return {"status": "UP", "service": "whatsapp-service"}
+
 @app.get("/whatsapp/webhook")
 async def verify(
     hub_mode: str = Query(None, alias="hub.mode"),
