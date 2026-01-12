@@ -1,14 +1,17 @@
 name: chedoparti
 services:
-  postgres: # 👈 Nombre del servicio (así lo referencian los microservicios)
-    image: postgres:16-alpine # Usa la imagen oficial de PostgreSQL (versión liviana)
-    environment: # Variables de entorno internas del contenedor
-      POSTGRES_USER: chedoparti # Usuario por defecto
-      POSTGRES_PASSWORD: chedoparti # Contraseña
+  # --- Database ---
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: chedoparti
+      POSTGRES_PASSWORD: chedoparti
     ports:
-      - "5432:5432" # Expone el puerto local 5432 para conexión desde tu máquina
+      - "5432:5432"
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d # 👈 Carpeta local con scripts SQL que se ejecutan al iniciar
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U chedoparti"]
       interval: 10s
@@ -17,21 +20,26 @@ services:
     networks:
       - chedoparti_net
 
-  # --- Redis para locks/caché ---
+  # --- Redis for caching/sessions ---
   redis:
-    image: redis:7
+    image: redis:7-alpine
     container_name: redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - chedoparti_net
 
-  # --- Servicios Backend ---
+  # --- Backend Services ---
   user-service:
     build: ./backend/chedoparti-user-service/user-service
     container_name: user-service
     ports:
-      - "8081:8080" # Mapea el puerto 8081 del host al 8080 del contenedor
+      - "8081:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       JWT_SECRET: 9yClDkURH4i3IpQ6UHggzGo5TkfSeXBXwDR6x6DLy/oE0TkrLsBhG+DFF8vI1Srl3yMaRVFY6GCYKLqu3B6K3g==
@@ -40,6 +48,12 @@ services:
       DB_NAME: user_service_db
       DB_USER: chedoparti
       DB_PASSWORD: chedoparti
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - chedoparti_net
     depends_on:
@@ -50,7 +64,7 @@ services:
     build: ./backend/chedoparti-institution-service/institution-service
     container_name: institution-service
     ports:
-      - "8082:8080" # Mapea el puerto 8082 del host al 8080 del contenedor
+      - "8082:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       DB_HOST: postgres
@@ -58,6 +72,12 @@ services:
       DB_NAME: institution_service_db
       DB_USER: chedoparti
       DB_PASSWORD: chedoparti
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - chedoparti_net
     depends_on:
@@ -68,7 +88,7 @@ services:
     build: ./backend/chedoparti-reservation-service/reservation-service
     container_name: reservation-service
     ports:
-      - "8083:8080" # Mapea el puerto 8083 del host al 8080 del contenedor
+      - "8083:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       DB_HOST: postgres
@@ -76,29 +96,69 @@ services:
       DB_NAME: reservation_service_db
       DB_USER: chedoparti
       DB_PASSWORD: chedoparti
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - chedoparti_net
     depends_on:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
+
+  payment-service:
+    build: ./backend/chedoparti-payment-service/payment-service
+    container_name: payment-service
+    ports:
+      - "8084:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: payment_service_db
+      DB_USER: chedoparti
+      DB_PASSWORD: chedoparti
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - chedoparti_net
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   whatsapp-service:
     build: ./backend/chedoparti-whatsapp-service
     container_name: whatsapp-service
+    ports:
+      - "8000:8000"
     environment:
-      WHATSAPP_VERIFY_TOKEN: your_verify_token
-      WHATSAPP_ACCESS_TOKEN: your_whatsapp_token
-      WHATSAPP_PHONE_NUMBER_ID: your_phone_id
+      WHATSAPP_VERIFY_TOKEN: ${WHATSAPP_VERIFY_TOKEN:-your_verify_token}
+      WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN:-your_whatsapp_token}
+      WHATSAPP_PHONE_NUMBER_ID: ${WHATSAPP_PHONE_NUMBER_ID:-your_phone_id}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       API_GATEWAY_URL: http://api-gateway:8989
-      OPENAI_API_KEY: your_openai_key
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-your_openai_key}
       OPENAI_MODEL: gpt-4o-mini
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     depends_on:
-      - api-gateway
-      - redis
+      api-gateway:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - chedoparti_net
 
@@ -110,35 +170,30 @@ services:
       - "8989:8989"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-
       USER_ROUTE_URI: http://user-service:8080
       INSTITUTIONS_ROUTE_URI: http://institution-service:8080
       RESERVATIONS_ROUTE_URI: http://reservation-service:8080
       PAYMENTS_ROUTE_URI: http://payment-service:8080
-
       JWT_SECRET: 9yClDkURH4i3IpQ6UHggzGo5TkfSeXBXwDR6x6DLy/oE0TkrLsBhG+DFF8vI1Srl3yMaRVFY6GCYKLqu3B6K3g==
-
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8989/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     depends_on:
-      - user-service
-      - institution-service
-      - reservation-service
-      - redis
+      user-service:
+        condition: service_healthy
+      institution-service:
+        condition: service_healthy
+      reservation-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
     networks:
       - chedoparti_net
 
-  # --- Frontend principal (React + Vite) Producción ---
-  # web:
-  #   build: ./frontend/chedoparti-react-app
-  #   container_name: chedoparti-react-app
-  #   ports:
-  #     - "5173:80"
-  #   environment:
-  #     VITE_API_BASE_URL: /api
-  #   depends_on:
-  #     - api-gateway
-  #   networks:
-  #     - chedoparti_net
-
+  # --- Frontend Web (React + Vite) Development Mode ---
   web-dev:
     image: node:20-alpine
     container_name: chedoparti-react-dev
@@ -151,6 +206,9 @@ services:
       - "5173:5173"
     environment:
       VITE_API_BASE_URL: http://localhost:8989
+    depends_on:
+      api-gateway:
+        condition: service_healthy
     networks:
       - chedoparti_net
 
@@ -161,3 +219,4 @@ networks:
   chedoparti_net:
     name: chedoparti_net
     driver: bridge
+
