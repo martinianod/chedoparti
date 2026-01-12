@@ -1,6 +1,10 @@
 -- Create databases for all microservices
-CREATE DATABASE IF NOT EXISTS user_service_db;
-CREATE DATABASE IF NOT EXISTS reservation_service_db;
-CREATE DATABASE IF NOT EXISTS institution_service_db;
-CREATE DATABASE IF NOT EXISTS payment_service_db;
+-- Note: PostgreSQL does not support IF NOT EXISTS for CREATE DATABASE
+-- These will fail if databases already exist, but that's ok for init script
+
+CREATE DATABASE user_service_db;
+CREATE DATABASE reservation_service_db;
+CREATE DATABASE institution_service_db;
+CREATE DATABASE payment_service_db;
+
 
