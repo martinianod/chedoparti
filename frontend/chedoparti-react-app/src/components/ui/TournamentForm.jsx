@@ -4,8 +4,20 @@ import AddButton from './AddButton';
 import SaveButton from './SaveButton';
 import Button from './Button';
 import tournamentOptions from '../../config/tournamentOptions.json';
-import tournamentTypes from '../../mock/tournamentTypes.mock.json';
-import inscriptionOptions from '../../mock/inscriptionOptions.mock.json';
+
+// Tournament types - moved from mock to inline
+const tournamentTypes = [
+  { id: 1, name: 'Americano', description: 'Formato de juego rotativo donde todos juegan con todos' },
+  { id: 2, name: 'Eliminación Directa', description: 'Formato de eliminación simple' },
+  { id: 3, name: 'Round Robin', description: 'Todos contra todos en rondas' }
+];
+
+// Inscription options - moved from mock to inline
+const inscriptionOptions = [
+  { value: 'Abierta', label: 'Abierta' },
+  { value: 'Cerrada', label: 'Cerrada' },
+  { value: 'Próximamente', label: 'Próximamente' }
+];
 
 export default function TournamentForm({ form, onChange, onSubmit, editing, onCancel }) {
   const { t } = useTranslation();
