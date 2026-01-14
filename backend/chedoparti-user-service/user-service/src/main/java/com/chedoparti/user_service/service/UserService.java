@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.chedoparti.user_service.dto.UserDTO;
 import com.chedoparti.user_service.enums.ERole;
+import com.chedoparti.user_service.entity.User;
 
 public interface UserService {
 
@@ -17,5 +18,7 @@ public interface UserService {
     UserDTO updateUser(Long id, UserDTO userDTO);
 
     void deleteUser(Long id);
+    
+    User findByUsernameOrEmail(String usernameOrEmail);
 
 }
