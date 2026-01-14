@@ -2,7 +2,7 @@ package com.chedoparti.user_service.controller;
 
 import com.chedoparti.user_service.dto.JwtResponse;
 import com.chedoparti.user_service.dto.UserDTO;
-import com.chedoparti.user_service.model.User;
+import com.chedoparti.user_service.entity.User;
 import com.chedoparti.user_service.service.JwtUserDetailsService;
 import com.chedoparti.user_service.service.UserService;
 import com.chedoparti.user_service.util.JwtTokenUtil;
