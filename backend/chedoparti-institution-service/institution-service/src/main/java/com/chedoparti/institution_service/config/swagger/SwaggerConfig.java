@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    GroupedOpenApi publicApi() {
+    public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("public-apis")
                 .pathsToMatch("/**")
@@ -21,13 +21,13 @@ public class SwaggerConfig {
     }
 
     @Bean
-    OpenAPI customAPI() {
+    public OpenAPI customAPI() {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("CheDoparti User Service API")
+                                .title("CheDoparti Institution Service API")
                                 .version("1.0.0")
-                                .description("API documentation for CheDoparti User Service")
+                                .description("API documentation for CheDoparti Institution Service")
                 )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(

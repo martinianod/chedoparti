@@ -2,16 +2,16 @@ package com.chedoparti.institution_service.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.io.Serial;
 import java.io.Serializable;
-import java.security.Key;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -26,11 +26,11 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private long jwtExpirationInMs;
 
-    private Key key;
+    private SecretKey key;
 
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     // Recupera el nombre de usuario del token jwt
@@ -50,11 +50,11 @@ public class JwtTokenUtil implements Serializable {
 
     // Para recuperar cualquier información del token necesitamos la clave secreta
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
+        return Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     // Verifica si el token ha expirado
@@ -70,14 +70,17 @@ public class JwtTokenUtil implements Serializable {
 
     // Mientras se crea el token -
     // 1. Define las reclamaciones del token, como Emisor, Expiración, Sujeto y el ID
-    // 2. Firma el JWT usando el algoritmo HS512 y la clave secreta
+    // 2. Firma el JWT usando la clave secreta
     // 3. De acuerdo con JWS Compact Serialization, compacta el JWT a una cadena segura para URL
     private String doGenerateToken(String subject) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        
         return Jwts.builder()
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
-                .signWith(key, SignatureAlgorithm.HS512)
+                .subject(subject)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(key)
                 .compact();
     }
 
@@ -87,4 +90,3 @@ public class JwtTokenUtil implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
-

@@ -22,9 +22,6 @@
  */
 
 import apiClient from '../api/client';
-import * as mockApi from './api.mock';
-
-const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
 
 const normalizeReservation = (reservation = {}) => {
   if (!reservation || typeof reservation !== 'object') return reservation;
@@ -188,14 +185,14 @@ const realTournamentsApi = {
   remove: (id) => apiClient.delete(`/tournaments/${id}`),
 };
 
-// Export either mock or real API based on configuration
-export const authApi = USE_MOCK ? mockApi.authApi : realAuthApi;
-export const institutionsApi = USE_MOCK ? mockApi.institutionsApi : realInstitutionsApi;
-export const courtsApi = USE_MOCK ? mockApi.courtsApi : realCourtsApi;
-export const reservationsApi = USE_MOCK ? mockApi.reservationsApi : realReservationsApi;
-export const statsApi = USE_MOCK ? mockApi.statsApi : realStatsApi;
-export const historyApi = USE_MOCK ? mockApi.historyApi : realHistoryApi;
-export const schedulesApi = USE_MOCK ? mockApi.schedulesApi : realSchedulesApi;
-export const pricesApi = USE_MOCK ? mockApi.pricesApi : realPricesApi;
-export const usersApi = USE_MOCK ? mockApi.usersApi : realUsersApi;
-export const tournamentsApi = USE_MOCK ? mockApi.tournamentsApi : realTournamentsApi;
+// Export real API implementations only
+export const authApi = realAuthApi;
+export const institutionsApi = realInstitutionsApi;
+export const courtsApi = realCourtsApi;
+export const reservationsApi = realReservationsApi;
+export const statsApi = realStatsApi;
+export const historyApi = realHistoryApi;
+export const schedulesApi = realSchedulesApi;
+export const pricesApi = realPricesApi;
+export const usersApi = realUsersApi;
+export const tournamentsApi = realTournamentsApi;

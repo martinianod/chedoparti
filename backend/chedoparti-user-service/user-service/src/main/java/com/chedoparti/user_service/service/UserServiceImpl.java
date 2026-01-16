@@ -84,4 +84,13 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+    
+    @Override
+    public User findByUsernameOrEmail(String usernameOrEmail) {
+        Optional<User> user = userRepository.findByUsername(usernameOrEmail);
+        if (user.isEmpty()) {
+            user = userRepository.findByEmail(usernameOrEmail);
+        }
+        return user.orElseThrow(() -> new CustomException("User not found with username or email: " + usernameOrEmail));
+    }
 }
