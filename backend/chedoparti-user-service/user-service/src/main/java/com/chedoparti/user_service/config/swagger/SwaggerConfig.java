@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    GroupedOpenApi publicApi() {
+    public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("public-apis")
                 .pathsToMatch("/**")
@@ -21,7 +21,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    OpenAPI customAPI() {
+    public OpenAPI customAPI() {
         return new OpenAPI()
                 .info(
                         new Info()
@@ -40,5 +40,4 @@ public class SwaggerConfig {
                 );
     }
 }
-
 

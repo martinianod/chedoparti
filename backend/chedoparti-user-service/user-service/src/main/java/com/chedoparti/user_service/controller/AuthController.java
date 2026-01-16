@@ -106,7 +106,9 @@ public class AuthController {
             userDTO.setPhoneNumber(user.getPhoneNumber());
             userDTO.setAddress(user.getAddress());
             userDTO.setProfilePictureUrl(user.getProfilePictureUrl());
-            userDTO.setRoles(user.getRoles());
+            userDTO.setRoles(user.getRoles().stream()
+                .map(com.chedoparti.user_service.entity.Role::getName)
+                .collect(java.util.stream.Collectors.toSet()));
             userDTO.setEnabled(user.isEnabled());
             
             return ResponseEntity.ok(userDTO);
