@@ -128,8 +128,8 @@ RUN mvn dependency:go-offline -B || true
 # Copy source code
 COPY src ./src
 
-# Build the application (skip tests for faster builds)
-RUN mvn clean package -DskipTests -B
+# Build the application (skip test compilation and execution for faster builds)
+RUN mvn clean package -Dmaven.test.skip=true -B
 
 # Stage 2: Runtime image (smaller, production-ready)
 FROM eclipse-temurin:17-jre
@@ -176,6 +176,45 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 - **SpringDoc OpenAPI**: Required for Swagger/OpenAPI documentation
 - **JWT (JJWT)**: Required for authentication
 - **Spring Security**: Required for security features
+
+### 7. API Gateway Test Compilation Failures ✅ FIXED
+**Issue**: Docker build failed with `maven-compiler-plugin:testCompile` errors:
+- `package org.junit.jupiter.api does not exist`
+- `package org.springframework.boot.test.context does not exist`
+- `package org.springframework.test.web.reactive.server does not exist`
+
+**Root Cause**: 
+- Using `-DskipTests` only skips test **execution**, NOT test **compilation**
+- api-gateway lacked test dependencies (`spring-boot-starter-test`, `reactor-test`)
+
+**Solution**:
+1. **Added test dependencies** to api-gateway/pom.xml:
+   ```xml
+   <!-- Test Dependencies -->
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+   </dependency>
+   <!-- Reactor Test for WebFlux testing -->
+   <dependency>
+       <groupId>io.projectreactor</groupId>
+       <artifactId>reactor-test</artifactId>
+       <scope>test</scope>
+   </dependency>
+   ```
+
+2. **Updated Dockerfiles** to use `-Dmaven.test.skip=true` instead of `-DskipTests`:
+   - `-DskipTests`: Compiles tests but doesn't run them (can fail if test deps missing)
+   - `-Dmaven.test.skip=true`: Skips BOTH compilation and execution of tests
+
+```dockerfile
+# Before (fails if test dependencies missing)
+RUN mvn clean package -DskipTests -B
+
+# After (skips test compilation entirely)
+RUN mvn clean package -Dmaven.test.skip=true -B
+```
 
 ---
 
@@ -235,7 +274,7 @@ WORKDIR /build
 COPY pom.xml ./
 RUN mvn dependency:go-offline -B || true
 COPY src ./src
-RUN mvn clean package -DskipTests -B
+RUN mvn clean package -Dmaven.test.skip=true -B
 
 # Stage 2: Runtime (minimal JRE image)
 FROM eclipse-temurin:17-jre
