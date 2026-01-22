@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import AddButton from '../../components/ui/AddButton';
 import Card from '../../components/ui/Card';
 import TournamentForm from '../../components/ui/TournamentForm';
@@ -8,17 +8,33 @@ import FilterChips from '../../components/ui/FilterChips';
 import SortDropdown from '../../components/ui/SortDropdown';
 import TournamentTable from '../../components/ui/TournamentTable';
 import tournamentOptions from '../../config/tournamentOptions.json';
-import tournamentsMock from '../../mock/tournaments.mock.json';
 import ModalBackdrop from '../../components/ui/shared/ModalBackdrop';
 import { FiPlus } from 'react-icons/fi';
-
-const initialTournaments = tournamentsMock;
+import { tournamentsApi } from '../../services/api';
 
 export default function TournamentsList() {
   const { t } = useTranslation();
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [showFilterPopover, setShowFilterPopover] = useState(false);
   const filterPopoverRef = useRef(null);
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch tournaments from backend
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const response = await tournamentsApi.list();
+        setTournaments(response.data || []);
+      } catch (error) {
+        console.error('Error fetching tournaments:', error);
+        setTournaments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTournaments();
+  }, []);
 
   // Filtros y orden
   const [filters, setFilters] = useState({
@@ -32,7 +48,6 @@ export default function TournamentsList() {
 
   const [sortField, setSortField] = useState('date');
   const [sortDir, setSortDir] = useState('asc');
-  const [tournaments, setTournaments] = useState(initialTournaments);
 
   const {
     sportOptions,

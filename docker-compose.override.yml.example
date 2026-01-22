@@ -1,0 +1,53 @@
+# docker-compose.override.yml.example
+#
+# Optional Docker Compose override for platform-specific configurations
+# 
+# For Apple Silicon (M1/M2/M3) users:
+# The main docker-compose.yml now uses multi-arch images that work on both AMD64 and ARM64.
+# This file is provided as a reference if you need to explicitly set platforms.
+#
+# Usage:
+#   1. Copy this file: cp docker-compose.override.yml.example docker-compose.override.yml
+#   2. Docker Compose will automatically use the override file
+#   3. Uncomment and modify as needed for your environment
+#
+# Note: With the current configuration using eclipse-temurin:17-jre (non-alpine),
+# explicit platform specifications are typically not needed.
+
+# version: '3.8'
+
+# services:
+#   # Example: Force ARM64 platform for Apple Silicon
+#   # Uncomment only if you encounter platform issues
+#   
+#   # user-service:
+#   #   platform: linux/arm64
+#   
+#   # institution-service:
+#   #   platform: linux/arm64
+#   
+#   # reservation-service:
+#   #   platform: linux/arm64
+#   
+#   # payment-service:
+#   #   platform: linux/arm64
+#   
+#   # api-gateway:
+#   #   platform: linux/arm64
+#   
+#   # For PostgreSQL and Redis, alpine images support multi-arch by default
+#   # postgres:
+#   #   platform: linux/arm64
+#   
+#   # redis:
+#   #   platform: linux/arm64
+
+# Alternative: Development-specific environment variables
+# services:
+#   user-service:
+#     environment:
+#       - JAVA_OPTS=-Xmx512m -Xms256m
+#   
+#   institution-service:
+#     environment:
+#       - JAVA_OPTS=-Xmx512m -Xms256m

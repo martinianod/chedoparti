@@ -16,7 +16,7 @@ build_service() {
     echo "📦 Building $service_name..."
     cd "$service_path"
     
-    if mvn clean package -DskipTests -q; then
+    if mvn clean package -Dmaven.test.skip=true -q; then
         echo "✅ $service_name built successfully"
         return 0
     else
