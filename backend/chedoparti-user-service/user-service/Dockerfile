@@ -1,20 +1,26 @@
 # Multi-stage build for user-service
 # Stage 1: Build the application
-FROM maven:3.9-eclipse-temurin-17 AS builder
+FROM eclipse-temurin:17-jdk AS builder
 
 WORKDIR /build
 
-# Copy pom.xml first (for dependency caching)
-COPY pom.xml ./
+# Update CA certificates to fix SSL issues
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 
-# Download dependencies (cached layer if pom.xml doesn't change)
-RUN mvn dependency:go-offline -B || true
+# Copy gradle wrapper and build files
+COPY gradlew ./
+COPY gradle ./gradle
+COPY build.gradle ./
+COPY settings.gradle ./
+
+# Download dependencies
+RUN chmod +x gradlew && ./gradlew dependencies --no-daemon || true
 
 # Copy source code
 COPY src ./src
 
 # Build the application (skip tests for faster builds)
-RUN mvn clean package -Dmaven.test.skip=true -B
+RUN ./gradlew clean bootJar --no-daemon -x test
 
 # Stage 2: Runtime image
 FROM eclipse-temurin:17-jre
@@ -22,7 +28,7 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # Copy the built JAR from builder stage
-COPY --from=builder /build/target/*.jar app.jar
+COPY --from=builder /build/build/libs/*.jar app.jar
 
 # Install curl for health checks
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*

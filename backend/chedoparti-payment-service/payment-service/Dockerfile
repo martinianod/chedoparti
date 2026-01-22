@@ -4,6 +4,9 @@ FROM maven:3.9-eclipse-temurin-17 AS builder
 
 WORKDIR /build
 
+# Update CA certificates to fix SSL issues
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
+
 # Copy pom.xml first (for dependency caching)
 COPY pom.xml ./
 

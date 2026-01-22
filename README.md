@@ -2,14 +2,16 @@
 
 Sistema completo de reservas de canchas deportivas con arquitectura de microservicios, completamente dockerizado y listo para desarrollo.
 
-## 🚀 Quick Start (Two Commands)
+## 🚀 Quick Start
 
 ```bash
-./build-all.sh          # Build all Java services (2-3 minutes)
-docker compose up -d    # Start all services
+docker compose up -d --build    # Build and start all services
 ```
 
-**Or use the detailed guide**: [QUICK_START.md](QUICK_START.md)
+**📚 Documentation:**
+- **[DOCKER_SETUP_GUIDE.md](DOCKER_SETUP_GUIDE.md)** - Comprehensive Docker setup and troubleshooting guide
+- **[QUICK_START.md](QUICK_START.md)** - Detailed quick start guide
+- **[DOCKER_FIXES_SUMMARY.md](DOCKER_FIXES_SUMMARY.md)** - Recent Docker fixes and improvements
 
 La aplicación estará disponible en:
 - **Frontend Web**: http://localhost:5173
@@ -20,7 +22,6 @@ La aplicación estará disponible en:
 
 - Docker 24.0+
 - Docker Compose V2
-- **Maven 3.9+ and Java 17+** (for building services before Docker)
 - 8GB RAM disponible
 - Puertos disponibles: 5173, 8000, 8081-8084, 8989, 5432, 6379
 
@@ -199,10 +200,10 @@ El sistema usa JWT para autenticación. Flujo:
 
 ### Servicios Directos (Solo en desarrollo)
 
-- User Service: `http://localhost:8081/health`
-- Institution Service: `http://localhost:8082/health`
-- Reservation Service: `http://localhost:8083/health`
-- Payment Service: `http://localhost:8084/health`
+- User Service: `http://localhost:8081/actuator/health`
+- Institution Service: `http://localhost:8082/actuator/health`
+- Reservation Service: `http://localhost:8083/actuator/health`
+- Payment Service: `http://localhost:8084/actuator/health`
 - WhatsApp Service: `http://localhost:8000/health`
 
 ## 🎨 Frontend
@@ -264,6 +265,16 @@ Las migraciones se ejecutan automáticamente con Flyway al iniciar cada servicio
 Scripts en: `backend/chedoparti-*/*/src/main/resources/db/migration/`
 
 ## 🐛 Troubleshooting
+
+### Quick Diagnostics
+
+```bash
+# Run automated diagnostic script
+./scripts/diagnose-compose.sh
+
+# Check detailed troubleshooting guide
+cat DOCKER_SETUP_GUIDE.md
+```
 
 ### Puertos en Uso
 
