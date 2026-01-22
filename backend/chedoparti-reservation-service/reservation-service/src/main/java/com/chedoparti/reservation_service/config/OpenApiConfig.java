@@ -23,19 +23,13 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        // Validate and log the service URL
-        String finalServiceUrl = serviceUrl;
-        if (finalServiceUrl == null || finalServiceUrl.isBlank()) {
-            finalServiceUrl = "http://localhost:8080";
-            logger.warn("OpenAPI service URL is not configured. Using fallback: {}", finalServiceUrl);
-        } else {
-            logger.info("OpenAPI service URL configured as: {}", finalServiceUrl);
-        }
+        // Log the configured service URL
+        logger.info("OpenAPI service URL configured as: {}", serviceUrl);
         
         return new OpenAPI()
                 .servers(List.of(
                         new Server()
-                                .url(finalServiceUrl)
+                                .url(serviceUrl)
                                 .description("Service URL")
                 ))
                 .info(new Info()
