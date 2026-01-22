@@ -4,8 +4,6 @@ import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import Accordion from './Accordion';
 
-import tournamentDetails from '../../mock/tournamentDetails.mock.json';
-import tennisBracketMock from '../../mock/tennisBracket.mock.json';
 import Tabs from './Tabs';
 import TournamentDrawTabs from './TournamentDrawTabs';
 import ModalBackdrop from './ModalBackdrop';
@@ -20,8 +18,11 @@ export default function TournamentTable({
   const [inscriptosModal, setInscriptosModal] = useState(null);
   const [drawModal, setDrawModal] = useState(null);
 
-  // Busca los detalles del torneo por id
-  const getDetails = (id) => tournamentDetails.find((td) => td.tournamentId === id);
+  // Busca los detalles del torneo por id (now will fetch from backend when needed)
+  const getDetails = (id) => {
+    // TODO: Fetch tournament details from backend API
+    return null;
+  };
 
   if (tournaments.length === 0) {
     return <div className="text-gray-500 p-4 text-center">{t('tournaments.empty')}</div>;
