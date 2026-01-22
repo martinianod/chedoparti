@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +16,16 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${openapi.service.url}")
+    private static final Logger logger = LoggerFactory.getLogger(OpenApiConfig.class);
+
+    @Value("${openapi.service.url:http://localhost:8080}")
     private String serviceUrl;
 
     @Bean
     public OpenAPI customOpenAPI() {
+        // Log the configured service URL
+        logger.info("OpenAPI service URL configured as: {}", serviceUrl);
+        
         return new OpenAPI()
                 .servers(List.of(
                         new Server()
