@@ -96,6 +96,7 @@ services:
       DB_NAME: reservation_service_db
       DB_USER: chedoparti
       DB_PASSWORD: chedoparti
+      OPENAPI_SERVICE_URL: http://api-gateway:8989
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

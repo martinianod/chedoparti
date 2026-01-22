@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,15 +16,26 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${openapi.service.url}")
+    private static final Logger logger = LoggerFactory.getLogger(OpenApiConfig.class);
+
+    @Value("${openapi.service.url:http://localhost:8080}")
     private String serviceUrl;
 
     @Bean
     public OpenAPI customOpenAPI() {
+        // Validate and log the service URL
+        String finalServiceUrl = serviceUrl;
+        if (finalServiceUrl == null || finalServiceUrl.isBlank()) {
+            finalServiceUrl = "http://localhost:8080";
+            logger.warn("OpenAPI service URL is not configured. Using fallback: {}", finalServiceUrl);
+        } else {
+            logger.info("OpenAPI service URL configured as: {}", finalServiceUrl);
+        }
+        
         return new OpenAPI()
                 .servers(List.of(
                         new Server()
-                                .url(serviceUrl)
+                                .url(finalServiceUrl)
                                 .description("Service URL")
                 ))
                 .info(new Info()
